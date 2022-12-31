@@ -1,0 +1,31 @@
+.buttonAdd{
+    
+    margin: 5px;
+    border-radius: 5px;
+    border: 0;
+    color: white;
+    background:#F24B08;
+    width: 150px;
+    height: 30px;
+}
+
+.buttonAdd:disabled{
+    background: #EBEDEF;
+}
+
+.buttonSR{
+    margin: 1px;
+    height: 30px;
+    width: 30px;
+}
+.CarroContador{
+    
+    float: right;
+    width: 100%;
+    height: 200px;
+    background: white;
+}
+
+.buttonAdd .disabled{
+    background: black;
+}

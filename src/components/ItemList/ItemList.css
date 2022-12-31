@@ -1,0 +1,45 @@
+
+
+.ItemList h2{
+    font-size: medium;
+    color: gray;
+}
+.ItemList p{
+    font-size: large;
+    color: #2C3E50;
+}
+
+
+.ItemList img{
+    width: 90%;
+    height: 420px;
+}
+
+.ItemList div{
+    background:#F8F9F9;
+    margin: 7px;
+    padding: 3px;
+    float: left;
+    width:30%;
+}
+
+.ItemList a {
+    
+    text-decoration: none;
+   padding: 20px;
+   margin: 20px;
+   
+   
+}
+
+.ItemList button {
+    padding: 5px;
+    margin: 5px;
+    font-size:medium;
+    border-radius: 0.5em;
+    border: 0;
+    width: 200px;
+    height: 50px;
+    color: white;
+    background-color: #F24B08;
+}

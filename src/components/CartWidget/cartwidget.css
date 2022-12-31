@@ -1,0 +1,24 @@
+.carrito{
+   
+    float: right;
+    width: 60px;
+    height: 60px;
+}
+
+.carrito button{
+   
+ background:#F24B08;
+}
+.carrito img{
+    background: #F24B08;
+    float: left;
+    width: 80%;
+    height: 40px;
+}
+.carrito  p {
+    color: white;
+    background: #F24B08;
+    width: 10%;
+    margin: 1px;
+    float: right;
+}

@@ -1,0 +1,21 @@
+.ItemDetailContainer {
+    background: white;
+    width: 100%;
+}
+
+.ItemDetailContainer div img {
+    float: center;
+    width: 35%;
+    height: auto;
+}
+
+.ItemDetailContainer h1{
+    font-size: medium;
+    color: gray;
+}
+.ItemList p{
+    width: 30%;
+    float: left;
+    font-size: large;
+    color: gray;
+}

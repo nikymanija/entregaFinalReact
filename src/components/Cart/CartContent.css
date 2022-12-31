@@ -1,0 +1,30 @@
+.Cart div{
+    background: orange;
+}
+.CartContnent img{
+height: 200px;
+ float: left;
+ width: 15%;
+}
+
+.CartContnent  h2 {
+    width: 50%;
+    background: red;
+    float: right;
+ font-size: small;  
+}
+
+.CartContnent  h1 {
+    float: center;
+    font-size: medium;  
+    width: 50%;
+   }
+   .CartContnent  h3{
+    float: center;
+    width: 100%;
+}   
+
+.CartContnent  button {
+    width: 10%;
+    float: right;
+}   
