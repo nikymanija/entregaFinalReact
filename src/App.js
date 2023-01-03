@@ -11,7 +11,7 @@ import ItemDetailContainer from './components/ItemDetailContainer/ItemDetailCont
 import '../src/asyncMock.css'
 import Cart from './components/Cart/Cart';
 import Chekout from './components/Chekout/Chekout';
-
+import Gracias from './components/Gracias/GraciasPorComprar'
 
 
 
@@ -33,6 +33,7 @@ function App() {
         <Route path='/category/:categoryId/' element={<ItemListContainer/>}/>
         <Route path='/detail/:productId/' element={<ItemDetailContainer/>}/>
         <Route path='/cart' element={<Cart/>}/>
+        <Route path='/gracias' element={<Gracias/>}/>
         <Route path='/chekout' element={<Chekout/>}/>
         </Routes>
       </BrowserRouter>

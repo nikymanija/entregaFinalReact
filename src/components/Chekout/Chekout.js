@@ -1,13 +1,30 @@
 import { useContext, useState } from 'react'
 import { CartContext } from '../context/CartContext'
 
-import { collection, getDocs, query, where, documentId, writeBatch, addDoc } from 'firebase/firestore'
+import { collection,serverTimestamp, getDocs, query, where, documentId, writeBatch, addDoc } from 'firebase/firestore'
 import { db } from '../services/firebase/firebaseConfig'
 
 import { useNavigate } from 'react-router-dom'
 
+import { toast } from 'react-toastify';
+
+
 const Checkout = () => {
+
+    const [client,setClient]= useState({nombre:'',telefono:'',email:''})
+
     const { cart, getTotal, clearCart } = useContext(CartContext)
+
+
+    const handleChange = (e)=>{
+        const {name,value} = e.target
+        setClient({
+            ...client,
+            [name]:value
+        })
+    }
+
+
     const [loading, setLoading] = useState(false)
 
     const navigate = useNavigate()
@@ -18,11 +35,10 @@ const Checkout = () => {
         try {
             const objOrder = {
                 buyer: {
-                    name: 'Nicolas Silva',
-                    email: 'Nicosilva1992@hotmail.com',
-                    phone: 22221293943
+                   client
                 },
                 items: cart,
+                date:serverTimestamp(),
                 total: getTotal()
             }
     
@@ -57,12 +73,25 @@ const Checkout = () => {
                 const orderRef = collection(db, 'orders')
     
                 const orderAdded = await addDoc(orderRef, objOrder)
-    
-                clearCart()
+                
+                if (client.nombre && client.telefono && client.email) {
+                    orderAdded
+                      .then(res => {
+                        toast.success("Compra exitosa!" + " Número de orden: " + res.id)
+                      })
+                      .catch(error => {
+                        toast.error("hubo un error!")
+                      })
+                  
+                  } else {
+                    toast.error("Por favor complete sus datos")
+                  }
 
-                setTimeout(() => {
-                    navigate('/')
-                }, 2000)
+
+               
+
+                
+
 
                 console.log(orderAdded.id)
             } else {
@@ -73,8 +102,24 @@ const Checkout = () => {
         } finally {
             setLoading(false)
         }
+
+        clearCart()
+        
+        setTimeout(() => {
+            navigate('/gracias')
+        }, 2000)
+
+    
+
     } 
-       
+    
+
+
+     
+    
+
+
+    
 
     if(loading) {
         return <h1>Generando Orden...</h1>
@@ -83,7 +128,19 @@ const Checkout = () => {
     return (
         <div>
             <h1>Checkout</h1>
-            {/* <Form /> */}
+
+            <p className='mt-5 ml-5'>Datos para la compra</p>
+                    <form className="form ml-5">
+                        <div className="form-group">
+                            <label htmlFor="nombre">Nombre</label>
+                            <input value={client.nombre} name="nombre" className='form-control' type="text" id="nombre" onChange={handleChange} />
+                            <label htmlFor="telefono">Teléfono</label>
+                            <input value={client.telefono} name="telefono" id="telefono" className='form-control' type="number" onChange={handleChange} />
+                            <label htmlFor="email">Email</label>
+                            <input value={client.email} name="email" id="email" type="email" className='form-control' onChange={handleChange} />
+                        </div>
+                    </form>
+
             <button onClick={handleCreateOrder}>Confirmar orden</button>
         </div>
     )
