@@ -20,7 +20,7 @@ const Checkout = () => {
                 buyer: {
                     name: 'Nicolas Silva',
                     email: 'Nicosilva1992@hotmail.com',
-                    phone: '22221293943'
+                    phone: 22221293943
                 },
                 items: cart,
                 total: getTotal()
@@ -42,7 +42,7 @@ const Checkout = () => {
                 const stockDb = dataDoc.stock
     
                 const productAddedToCart = cart.find(prod => prod.id === doc.id)
-                const prodQuantity = productAddedToCart?.quantity
+                const prodQuantity = productAddedToCart?.quanty
     
                 if(stockDb >= prodQuantity) {
                     batch.update(doc.ref, { stock: stockDb - prodQuantity })
@@ -66,7 +66,7 @@ const Checkout = () => {
 
                 console.log(orderAdded.id)
             } else {
-                console.error('Hay productos fuera de stock')
+                console.log('Productos fuera de stock');
             }
         } catch (error) {
             console.error(error)
