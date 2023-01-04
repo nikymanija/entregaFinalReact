@@ -8,15 +8,22 @@ import { db } from '../services/firebase/firebaseConfig'
 
 import { useNavigate } from 'react-router-dom'
 
-import { toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+
+import { ToastContainer,toast } from 'react-toastify';
+
 
 
 const Checkout = () => {
+
+  
 
     const [client,setClient]= useState({nombre:'',telefono:'',email:''})
 
     const { cart, getTotal, clearCart } = useContext(CartContext)
 
+
+    
 
     const handleChange = (e)=>{
         const {name,value} = e.target
@@ -30,6 +37,8 @@ const Checkout = () => {
     const [loading, setLoading] = useState(false)
 
     const navigate = useNavigate()
+
+
 
     const handleCreateOrder = async () => {
         setLoading(true)
@@ -72,15 +81,20 @@ const Checkout = () => {
             if(outOfStock.length === 0 && client.nombre && client.telefono && client.email) {
                 await batch.commit()
     
-                const orderRef = collection(db, 'orders')
-    
-                const orderAdded = await addDoc(orderRef, objOrder) 
-                
            
-                    orderAdded
-                      .then(res => {
-                         toast.success( `Compra Exitosa, Numero de orden:${res.id}`) 
-                        })
+                const orderRef = collection(db, 'orders') 
+    
+               const orderAdded = await addDoc(orderRef, objOrder)   
+                    
+              
+
+            
+                      .then(res=> {
+                      
+                         toast.success( `Compra Exitosa, Numero de orden ${res.id} `) 
+                         
+                        } )
+                     
                     .catch(error => 
                         toast.error("hubo un error!")
                       )
@@ -90,22 +104,23 @@ const Checkout = () => {
                 
 
 
-                .then()
+              
             } else {
-                toast.error("Por favor complete sus datos")
+                toast.error("Se ingreso mal un dato, intente mas tarde")
                 console.log('Productos fuera de stock o no cargados');
          }
         } catch (error) {
             console.error(error)
         } finally {
+           
             setLoading(false)
         }
 
         clearCart()
         
-        setTimeout(() => {
-            navigate('/gracias')
-        }, 2000)
+       setTimeout(() => {
+            navigate('/')
+        }, 4000) 
 
     
 
@@ -120,14 +135,17 @@ const Checkout = () => {
     
 
     if(loading) {
+     
         return <h1>Generando Orden...</h1>
+
+        
     }
 
     return (
         <div>
             <h1>Checkout</h1>
-
-
+        <ToastContainer/>
+      
 
 
             <h2>Detalles De Tu Pedido:</h2>
