@@ -1,6 +1,8 @@
 import { useContext, useState } from 'react'
 import { CartContext } from '../context/CartContext'
 
+
+
 import { collection,serverTimestamp, getDocs, query, where, documentId, writeBatch, addDoc } from 'firebase/firestore'
 import { db } from '../services/firebase/firebaseConfig'
 
@@ -67,36 +69,32 @@ const Checkout = () => {
                 }
             })
     
-            if(outOfStock.length === 0) {
+            if(outOfStock.length === 0 && client.nombre && client.telefono && client.email) {
                 await batch.commit()
     
                 const orderRef = collection(db, 'orders')
     
-                const orderAdded = await addDoc(orderRef, objOrder)
+                const orderAdded = await addDoc(orderRef, objOrder) 
                 
-                if (client.nombre && client.telefono && client.email) {
+           
                     orderAdded
                       .then(res => {
-                        toast.success("Compra exitosa!" + " Número de orden: " + res.id)
-                      })
-                      .catch(error => {
+                         toast.success( `Compra Exitosa, Numero de orden:${res.id}`) 
+                        })
+                    .catch(error => 
                         toast.error("hubo un error!")
-                      })
+                      )
                   
-                  } else {
-                    toast.error("Por favor complete sus datos")
-                  }
-
-
-               
+            
 
                 
 
 
-                console.log(orderAdded.id)
+                .then()
             } else {
-                console.log('Productos fuera de stock');
-            }
+                toast.error("Por favor complete sus datos")
+                console.log('Productos fuera de stock o no cargados');
+         }
         } catch (error) {
             console.error(error)
         } finally {
@@ -129,7 +127,34 @@ const Checkout = () => {
         <div>
             <h1>Checkout</h1>
 
-            <p className='mt-5 ml-5'>Datos para la compra</p>
+
+
+
+            <h2>Detalles De Tu Pedido:</h2>
+        {
+            cart.map(prod =>{
+                const total = getTotal()
+                return(
+                    <div key={prod.id} className='CartContent'>
+
+                
+                        <h2>{prod.nombre} Unit x({prod.quanty} )</h2>
+                      
+                        <h2>${prod.price * prod.quanty}</h2>
+                       
+                        <h3>Total: ${total} </h3>
+                    </div>
+                )
+            })
+        }
+
+      
+
+
+
+
+
+            <p className='mt-5 ml-5'>Información Requeríada para el Envío</p>
                     <form className="form ml-5">
                         <div className="form-group">
                             <label htmlFor="nombre">Nombre</label>
@@ -144,6 +169,11 @@ const Checkout = () => {
             <button onClick={handleCreateOrder}>Confirmar orden</button>
         </div>
     )
+
+
+    
+
+
 }
 
 export default Checkout
